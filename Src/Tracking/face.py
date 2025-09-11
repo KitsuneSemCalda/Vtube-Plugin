@@ -1,5 +1,6 @@
 import mediapipe as mp
 import numpy as np
+from Tracking.discoverExpression import ExpressionDetector
 
 
 class FaceTracker:
@@ -7,6 +8,11 @@ class FaceTracker:
         self.refine_landmarks = refine_landmarks
         self.smoothing = smoothing
         self.previous_landmarks = None
+
+        self.expression_detector = ExpressionDetector()
+
+        self.base_expression = "neutral"
+        self.current_expression = self.base_expression
 
         self.mp_face = mp.solutions.face_mesh
         self.face_mesh = self.mp_face.FaceMesh(
@@ -42,10 +48,10 @@ class FaceTracker:
         return key_data
 
     def get_expression(self, frame_rgb: np.ndarray) -> str:
-        data = self.process_frame(frame_rgb)
-        mouth_ratio = data.get("mouth_ratio", 0.0)
-
-        return "neutral"
+        self.current_expression = self.expression_detector.discover_expressions(
+            frame_rgb
+        )
+        return self.current_expression
 
     def close(self):
         self.face_mesh.close()
