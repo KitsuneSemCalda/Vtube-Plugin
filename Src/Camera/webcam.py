@@ -21,13 +21,16 @@ class Webcam:
         if not self.cap.isOpened():
             raise RuntimeError(f"Can't open Webcam: {self.device_index}")
 
-    def get_frame(self):
+    def get_frame(self, to_rgb: bool = True):
         """Return the actual frame from webcam"""
         if self.cap is None:
             raise RuntimeError("Webcam not initialized. Call start() first.")
         ret, frame = self.cap.read()
         if not ret:
             raise RuntimeError("Can't read frame from webcam")
+        frame = cv2.resize(frame, (self.width, self.height))
+        if to_rgb:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         return frame
 
     def release(self):
@@ -36,7 +39,6 @@ class Webcam:
             self.cap.release()
             self.cap = None
 
-    # Context manager support
     def __enter__(self):
         self.start()
         return self
