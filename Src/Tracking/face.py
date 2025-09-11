@@ -41,5 +41,11 @@ class FaceTracker:
             return key_data, face_landmarks_obj
         return key_data
 
+    def get_expression(self, frame_rgb: np.ndarray) -> str:
+        data = self.process_frame(frame_rgb)
+        mouth_ratio = data.get("mouth_ratio", 0.0)
+
+        return "neutral"
+
     def close(self):
         self.face_mesh.close()
