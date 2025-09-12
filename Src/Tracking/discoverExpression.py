@@ -5,11 +5,9 @@ import numpy as np
 
 class ExpressionDetector:
     def __init__(self):
-        self.mouth_open_thresh: float = 0.015
-        self.smile_thresh: float = 0.25
-        self.eyebrow_raise_thresh: float = 0.03
-        self.frown_thresh: float = 0.02
         self.history_length: int = 5
+        self.mouth_open_thresh = 0.015
+        self.smile_thresh = 0.25
         self.history = deque(maxlen=self.history_length)
 
     def _compute_mouth_metrics(self, landmarks: np.ndarray) -> tuple[float, float]:
@@ -35,7 +33,6 @@ class ExpressionDetector:
     def _classify_expression(
         self, mouth_ratio: float, smile_ratio: float, metrics: dict
     ) -> str:
-        """Decide a expressão baseada nas métricas calculadas."""
         if mouth_ratio < self.mouth_open_thresh and smile_ratio > self.smile_thresh:
             return "smile"
         if mouth_ratio > self.mouth_open_thresh:
