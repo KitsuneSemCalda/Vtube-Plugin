@@ -16,7 +16,6 @@ def main():
     with cam, vcam:
         while True:
             frame = cam.get_frame()
-
             frame = cv2.GaussianBlur(frame, (3, 3), 0)
             frame_yuv = cv2.cvtColor(frame, cv2.COLOR_RGB2YUV)
             frame_yuv[:, :, 0] = cv2.equalizeHist(frame_yuv[:, :, 0])
@@ -31,6 +30,31 @@ def main():
             previous_expression = current_expression
 
             display_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+            cv2.imshow("Webcam 60FPS", display_frame)
+
+            landmarks_data, face_landmarks = ftracker.process_frame(
+                frame, return_landmarks=True
+            )
+
+            display_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+            if face_landmarks:
+                mp_drawing.draw_landmarks(
+                    image=display_frame,
+                    landmark_list=face_landmarks,
+                    connections=mp.solutions.face_mesh.FACEMESH_TESSELATION,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_tesselation_style(),
+                )
+
+                mp_drawing.draw_landmarks(
+                    image=display_frame,
+                    landmark_list=face_landmarks,
+                    connections=mp.solutions.face_mesh.FACEMESH_CONTOURS,
+                    landmark_drawing_spec=None,
+                    connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_contours_style(),
+                )
 
             cv2.imshow("Webcam 60FPS", display_frame)
 

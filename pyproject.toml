@@ -1,14 +1,4 @@
 [project]
-dependencies = [
-  "opencv-python (<4.12.0.88)",
-  "numpy (<2.0)",
-  "pyvirtualcam (>=0.14.0,<0.15.0)",
-  "loguru (>=0.7.3,<0.8.0)",
-  "pycairo (>=1.28.0,<2.0.0)",
-  "pygobject (==3.50.0)",
-  "pillow (>=11.3.0,<12.0.0)",
-  "mediapipe (>=0.10.21,<0.11.0)",
-]
 name = "vtube-plugin"
 version = "0.1.0"
 description = "A little OBS-Studio Plugin to make a lightweight vtube"
@@ -18,6 +8,13 @@ authors = [
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.10,<4"
+dependencies = [
+  "opencv-python (<4.12.0.88)",
+  "numpy (<2.0)",
+  "mediapipe (>=0.10.21,<0.11.0)",
+  "pyvirtualcam (>=0.14.0,<0.15.0)",
+  "loguru (>=0.7.3,<0.8.0)",
+]
 
 
 [build-system]
