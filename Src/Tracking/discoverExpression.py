@@ -3,9 +3,8 @@ import numpy as np
 
 
 class ExpressionDetector:
-    def __init__(self, threshold_open: float = 0.015, threshold_smile: float = 0.25):
-        self.threshold_open = threshold_open
-        self.threshold_smile = threshold_smile
+    def __init__(self):
+        self.threshold_open = 0.015
 
     def discover_expressions(self, landmarks: Optional[np.ndarray]) -> str:
         if landmarks is None:
@@ -24,7 +23,7 @@ class ExpressionDetector:
         mouth_width = np.linalg.norm(left_corner - right_corner)
         smile_ratio = mouth_width / face_height
 
-        if mouth_ratio < self.threshold_open and smile_ratio > self.threshold_smile:
+        if mouth_ratio < self.threshold_open and smile_ratio > 0.25:
             return "smile"
         if mouth_ratio > self.threshold_open:
             return "open_mouth"
