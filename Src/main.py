@@ -1,12 +1,13 @@
 from Camera.webcam import Webcam
 from Tracking.face import FaceTracker
+from Tracking.discoverExpression import ExpressionDetector
 from Output.virtual_cam import VirtualCam
 
 import cv2
-import mediapipe as mp
 
 cam = Webcam()
 ftracker = FaceTracker()
+detector = ExpressionDetector()
 vcam = VirtualCam()
 
 
@@ -21,7 +22,8 @@ def main():
             frame_yuv[:, :, 0] = cv2.equalizeHist(frame_yuv[:, :, 0])
             frame = cv2.cvtColor(frame_yuv, cv2.COLOR_YUV2RGB)
 
-            current_expression = ftracker.get_expression(frame)
+            landmarks = ftracker.process_frame(frame)
+            current_expression = detector.discover_expressions(landmarks)
 
             if previous_expression != current_expression:
                 print(f"The current expression is: {current_expression}")
