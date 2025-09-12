@@ -33,30 +33,7 @@ def main():
 
             cv2.imshow("Webcam 60FPS", display_frame)
 
-            landmarks_data, face_landmarks = ftracker.process_frame(
-                frame, return_landmarks=True
-            )
-
             display_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-
-            if face_landmarks:
-                mp_drawing.draw_landmarks(
-                    image=display_frame,
-                    landmark_list=face_landmarks,
-                    connections=mp.solutions.face_mesh.FACEMESH_TESSELATION,
-                    landmark_drawing_spec=None,
-                    connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_tesselation_style(),
-                )
-
-                mp_drawing.draw_landmarks(
-                    image=display_frame,
-                    landmark_list=face_landmarks,
-                    connections=mp.solutions.face_mesh.FACEMESH_CONTOURS,
-                    landmark_drawing_spec=None,
-                    connection_drawing_spec=mp_drawing_styles.get_default_face_mesh_contours_style(),
-                )
-
-            cv2.imshow("Webcam 60FPS", display_frame)
 
             vcam.send(display_frame)
             vcam.sleep_until_next_frame()
