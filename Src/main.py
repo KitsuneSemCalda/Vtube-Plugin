@@ -1,7 +1,12 @@
+from Gui.main_window import StartApp
+
+"""
+
 from Camera.webcam import Webcam
 from Tracking.face import FaceTracker
 from Tracking.discoverExpression import ExpressionDetector
 from Output.virtual_cam import VirtualCam
+
 
 import cv2
 
@@ -42,6 +47,11 @@ def main():
                 break
 
     cv2.destroyAllWindows()
+"""
+
+
+def main():
+    StartApp()
 
 
 if __name__ == "__main__":
